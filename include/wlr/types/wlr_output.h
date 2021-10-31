@@ -207,6 +207,7 @@ struct wlr_output_event_commit {
 	struct wlr_output *output;
 	uint32_t committed; // bitmask of enum wlr_output_state_field
 	struct timespec *when;
+	struct wlr_buffer *buffer;
 };
 
 enum wlr_output_present_flag {

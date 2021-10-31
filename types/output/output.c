@@ -690,14 +690,19 @@ bool wlr_output_commit(struct wlr_output *output) {
 	}
 
 	uint32_t committed = output->pending.committed;
+	struct wlr_buffer *committed_buffer = output->pending.buffer ?
+		wlr_buffer_lock(output->pending.buffer) : NULL;
 	output_state_clear(&output->pending);
 
 	struct wlr_output_event_commit event = {
 		.output = output,
 		.committed = committed,
 		.when = &now,
+		.buffer = committed_buffer,
 	};
 	wlr_signal_emit_safe(&output->events.commit, &event);
+
+	wlr_buffer_unlock(committed_buffer);
 
 	return true;
 }
